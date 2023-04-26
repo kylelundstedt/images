@@ -1,14 +1,16 @@
-Here's an easier-to-read network diagram.
-
 ```mermaid
-graph LR
-    ISP --- ONT
-    ONT -- Ethernet --> UDMPro((Unifi Dream Machine Pro))
-    UDMPro -- LAN --> U6Lite((Unifi Access Point U6 Lite))
-    U6Lite -- mesh --> U6Ext1((Unifi Access Point U6 Extender))
-    U6Lite -- mesh --> U6Ext2((Unifi Access Point U6 Extender))
-    U6Ext1 -- |Front| Guest House
-    U6Ext2 -- |Back| Guest House
-    Guest House -- fiber --> UnifiSwitch((Unifi Switch))
-    UnifiSwitch -- Ethernet --> U6Lite
+graph TB;
+    ISP([Sonic Internet]) -- Fiber from Street --- Adtran-411-ONT[Sonic Modem];
+    subgraph Main House
+        Adtran-411-ONT -- Ethernet --- UDM-SE[Fiber Capable Router];
+        UDM-SE -- Ethernet --- U6Lite1[Main WiFi Access Point];
+        UDM-SE -- Ethernet --- HomeOffice[Wired Home Office Connection];
+        U6Lite1 -- WiFi_Mesh --- U6Ext1[WiFi Extender 1 if needed];
+        U6Lite1 -- WiFi_Mesh --- U6Ext2[WiFi Extender 2 if needed];
+    end
+    subgraph ADU
+        UDM-SE -- Fiber in Conduit --> USW-Switch[Fiber Capable Switch];
+        USW-Switch -- Ethernet --> U6Lite2[Second WiFi Access Point];
+        USW-Switch -- Ethernet --> LivingRoom[Wired Living Room Connection];
+    end
 ```
