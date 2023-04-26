@@ -1,6 +1,6 @@
 Here's an easier-to-read network diagram.
 
-```
+```mermaid
 graph LR
     ISP --- ONT
     ONT -- Ethernet --> UDMPro((Unifi Dream Machine Pro))
